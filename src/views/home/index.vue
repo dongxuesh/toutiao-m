@@ -44,7 +44,6 @@ export default {
  methods: {
     async getData(){
       const {data:res} = await getChannel()
-      console.log('频道信息',res)
       if(res && res.data) {
         this.channelList = res.data.channels
       }
