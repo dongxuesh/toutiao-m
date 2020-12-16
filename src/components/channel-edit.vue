@@ -5,8 +5,9 @@
       <van-button type='danger' round size='mini' plain>编辑</van-button>
     </van-cell>
     <van-grid :gutter="10">
-      <van-grid-item
-      text="文字"
+      <van-grid-item v-for='(item,index) in userChannelList'
+      :text="item.name"
+      :key='index'
       class='grid-item'
       />
     </van-grid>
@@ -26,7 +27,12 @@
 export default {
   name: 'channelEdit',
   components: {},
-  props: {},
+  props: {
+    userChannelList: {
+      type: Array,
+      required: true
+    }
+  },
   data () {
     return {
 
@@ -34,7 +40,9 @@ export default {
   },
  computed: {},
  watch: {},
- created () {},
+ created () {
+   console.log('111',this.userChannelList)
+ },
  mounted () {},
  methods: {}
 }

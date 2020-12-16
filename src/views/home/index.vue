@@ -32,7 +32,7 @@
        class='channel-edit-popup'
        style='height:100%'
     >
-      <channel-edit />
+      <channel-edit :userChannelList='channelList'/>
     </van-popup>
   </div>
 </template>
