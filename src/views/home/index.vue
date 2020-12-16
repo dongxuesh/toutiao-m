@@ -16,7 +16,20 @@
        <van-tab v-for='(item) in channelList' :key='item.id' :title='item.name'>
          <ArticleList :channel='item'/>
        </van-tab>
+       <div slot='nav-right' class='wap-nav-right' @click='popupshow=true'>
+        <van-icon name="wap-nav" />
+       </div>
      </van-tabs>
+     <!--设置弹出层 最好的方式是将 dom 挂载到 body 上 不属于任何组件的子组件-->
+     <van-popup
+       v-model="popupshow"
+       closeable
+       :close-icon-position='top-left'
+       get-container="body"
+       position="bottom"
+       class='channel-edit-popup'
+       style='height:100%'
+     />
   </div>
 </template>
 
@@ -32,7 +45,8 @@ export default {
   data () {
     return {
       active:0,
-      channelList:[]
+      channelList:[],
+      popupshow: false
     }
   },
  computed: {},
@@ -64,6 +78,22 @@ export default {
       height: 32px;
       background: #5babfb;
       border: none;
+    }
+  }
+  .wap-nav-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: 0;
+    height: 43px;
+    background:#fff;
+    opacity: .9;
+    &::before {
+      content:'';
+      width:1px;
+      height:36px;
+      background:#ccc;
     }
   }
 }
