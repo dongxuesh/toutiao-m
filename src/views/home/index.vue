@@ -16,6 +16,8 @@
        <van-tab v-for='(item) in channelList' :key='item.id' :title='item.name'>
          <ArticleList :channel='item'/>
        </van-tab>
+       <!--汉堡按钮定位把列表最后的位置给挡住了，解决办法的就是在这里添加一个占位元素 占位元素的宽度就是汉堡按钮的宽度-->
+       <div slot='nav-right' style='width:24px; flex-shrink:0;'></div>
        <div slot='nav-right' class='wap-nav-right' @click='popupshow=true'>
         <van-icon name="wap-nav" />
        </div>
@@ -24,29 +26,33 @@
      <van-popup
        v-model="popupshow"
        closeable
-       :close-icon-position='top-left'
+       close-icon-position="top-left"
        get-container="body"
        position="bottom"
        class='channel-edit-popup'
        style='height:100%'
-     />
+    >
+      <channel-edit />
+    </van-popup>
   </div>
 </template>
 
 <script>
 import { getChannel } from '@/api/channel'
 import ArticleList from './components/ArticleList.vue'
+import ChannelEdit from '../../components/channel-edit.vue'
 export default {
   name: 'HomeIndex',
   components: {
-    ArticleList
+    ArticleList,
+    ChannelEdit
   },
   props: {},
   data () {
     return {
       active:0,
       channelList:[],
-      popupshow: false
+      popupshow: true
     }
   },
  computed: {},
