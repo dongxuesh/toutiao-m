@@ -13,7 +13,7 @@
         finished-text="没有更多了"
         @load="onLoad"
       >
-        <van-cell v-for="(article,index) in articles" :key="index" :title='article.title'/>
+        <ArticleItem v-for="(article,index) in articles" :key="index" :articleInfo='article'/>
       </van-list>
      </van-pull-refresh>
   </div>
@@ -21,10 +21,12 @@
 
 <script>
 import { getArticles } from '@/api/channel'
-
-export default {
+import ArticleItem from '@/components/article-item.vue'
+ export default {
   name: 'ArticleList',
-  components: {},
+  components: {
+    ArticleItem
+  },
   props: {
     channel: {
       type: Object,
@@ -36,7 +38,7 @@ export default {
       articles: [],
       loading: false,
       finished: false,
-      timestamp: Date.now(),
+      timestamp: '',
       isRefreshLoading: false,
       successText: '' // 刷新成功后的提示信息
     }
@@ -50,13 +52,14 @@ export default {
    async onLoad() {
      let param = {
        channel_id: this.channel.id,
-       timestamp: this.timestamp,
+       timestamp: this.timestamp|| Date.now(),
        with_top: 1
      }
      const { data:res } = await getArticles(param)
      if(res && res.data) {
+       console.log('resInfo',res)
         this.articles.push(...res.data.results) // 重点 合并数组
-
+        console.log('res',this.articles)
      }
      this.loading = false // 加载结束
      if(res.data.results.length){

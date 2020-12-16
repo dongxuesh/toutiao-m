@@ -12,6 +12,7 @@ import 'amfe-flexible'
 // import axios from './utils/request'
 import './font/iconfont.css'
 import './styles/index.less'
+import './utils/dayjs'
 
 // 全局注册vant
 Vue.use(Vant);

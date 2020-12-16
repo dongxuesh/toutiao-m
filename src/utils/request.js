@@ -14,7 +14,6 @@ request.interceptors.request.use(function (config) {
   if(user) {
     config.headers.Authorization = `Bearer ${user.token}`
   }
-  console.log('config',config)
   return config;
 }, function (error) {
   // Do something with request error
