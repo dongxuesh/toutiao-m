@@ -3,9 +3,10 @@
     <van-cell
     v-for='(suggestion,index) in suggestions'
     :key='index'
-    :title='suggestion'
     icon='search'
-    ></van-cell>
+    >
+      <div slot='title' v-html='heightlignt(suggestion)'></div>
+    </van-cell>
   </div>
 </template>
 
@@ -34,13 +35,18 @@ export default {
        if(res && res.data) {
          this.suggestions = res.data.options
        }
-     },1000),
+     },50),
      immediate:true
    }
  },
  created () {},
  mounted () {},
- methods: {}
+ methods: {
+   heightlignt(str) {
+     const reg = new RegExp(this.searchText,'gi')
+     return str.replace(reg,`<span style='color:red;'>${this.searchText}</span>`)
+   }
+ }
 }
 </script>
 
