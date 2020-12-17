@@ -32,7 +32,11 @@
        class='channel-edit-popup'
        style='height:100%'
     >
-      <channel-edit :userChannelList='channelList' @close='popupshow=false' @update-active='active = $event'/>
+      <channel-edit
+      :userChannelList='channelList'
+      :active='active'
+      @close='popupshow=false'
+      @update-active='active = $event'/>
     </van-popup>
   </div>
 </template>
@@ -41,6 +45,8 @@
 import { getChannel } from '@/api/channel'
 import ArticleList from './components/ArticleList.vue'
 import ChannelEdit from '../../components/channel-edit.vue'
+import { mapState } from 'vuex'
+import { getItem } from '@/utils/storage'
 export default {
   name: 'HomeIndex',
   components: {
@@ -52,10 +58,12 @@ export default {
     return {
       active:0,
       channelList:[],
-      popupshow: true
+      popupshow: false
     }
   },
- computed: {},
+ computed: {
+   ...mapState(['user'])
+ },
  watch: {},
  created () {
   this.getData()
@@ -63,9 +71,21 @@ export default {
  mounted () {},
  methods: {
     async getData(){
-      const {data:res} = await getChannel()
-      if(res && res.data) {
-        this.channelList = res.data.channels
+      // 判断是否已经登录 请求获取线上用户频道
+      if(this.user) {
+        const {data:res} = await getChannel()
+        if(res && res.data) {
+          this.channelList = res.data.channels
+        }
+      }else{
+        if(getItem('user-channel')) {
+          this.channelList = getItem('user-channel')
+        }else {
+          const {data:res} = await getChannel()
+          if(res && res.data) {
+            this.channelList = res.data.channels
+          }
+        }
       }
     }
  }

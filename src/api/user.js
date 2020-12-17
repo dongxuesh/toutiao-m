@@ -20,7 +20,7 @@ export const login = data => {
  */
 export const sendSms = mobile => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/app/v1_0/sms/codes/${mobile}'
   })
 }
@@ -31,7 +31,7 @@ export const sendSms = mobile => {
  */
 export const getCurrentUser = () => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/app/v1_0/user'
     // headers: {
     //   Authorization: `Bearer ${store.state.user.token}`

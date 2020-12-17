@@ -5,7 +5,7 @@ import request from '@/utils/request'
  */
 export const getChannel = () => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/app/v1_0/user/channels'
   })
 }
@@ -15,7 +15,7 @@ export const getChannel = () => {
  */
 export const getArticles = params => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/app/v1_1/articles',
     params
   })
@@ -26,7 +26,18 @@ export const getArticles = params => {
  */
 export const getAllchannels = () => {
   return request({
-    methods: 'GET',
+    method: 'GET',
     url: '/app/v1_0/channels'
+  })
+}
+
+/**
+ * 添加用户频道
+ */
+export const addUserChannel = data => {
+  return request({
+    method: 'PATCH',
+    url: '/app/v1_0/user/channels',
+    data
   })
 }

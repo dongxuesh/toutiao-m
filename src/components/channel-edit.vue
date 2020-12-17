@@ -10,6 +10,7 @@
       :text="item.name"
       :key='index'
       class='grid-item'
+      :class="{'active':index === active}"
       @click='removeItem(index)'
       />
     </van-grid>
@@ -28,13 +29,19 @@
 </template>
 
 <script>
-import {getAllchannels} from '@/api/channel'
+import {getAllchannels,addUserChannel} from '@/api/channel'
+import { mapState } from 'vuex'
+import { setItem } from '@/utils/storage.js'
 export default {
   name: 'channelEdit',
   components: {},
   props: {
     userChannelList: {
       type: Array,
+      required: true
+    },
+    active: {
+      type: Number,
       required: true
     }
   },
@@ -45,13 +52,15 @@ export default {
     }
   },
  computed: {
+   ...mapState(['user']),
    recommendList() {
      return this.allChannelList.filter(channel => {
        return !this.userChannelList.find(userChannel => {
          return userChannel.id === channel.id
        })
      })
-   }
+   },
+
  },
  watch: {},
  created () {
@@ -63,12 +72,27 @@ export default {
      const {data:res} = await getAllchannels()
      this.allChannelList = res.data.channels
    },
-   addChannnel (item) {
+   async addChannnel (item) {
      this.userChannelList.push(item)
+     console.log(this.user)
+     // 做数据持久化
+     if(this.user) {
+       // 数据存储到线上  接口有问题
+       await addUserChannel({
+         channels: [
+           {id:item.id,seq:this.userChannelList.length}
+         ]
+       })
+     }else{
+       // 未登录 数据存储到本地
+       setItem('user-channel',this.userChannelList)
+     }
    },
    removeItem (index) {
     if(this.isEdit && index!==0) {
+      this.$emit('update-active',this.active -1)
       this.userChannelList.splice(index,1)
+      setItem('user-channel',this.userChannelList)
     }else{
       this.$emit('close')
       this.$emit('update-active',index)
@@ -102,6 +126,11 @@ export default {
         color: #ccc;
         font-size: 20px;
       }
+    }
+  }
+  .active {
+    /deep/.van-grid-item__text {
+      color:red !important;
     }
   }
 }
