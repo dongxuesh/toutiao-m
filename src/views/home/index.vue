@@ -8,6 +8,7 @@
         slot='title'
         size='small'
         round
+        to='search'
         class='search-btn'>搜索</van-button>
      </van-nav-bar>
      <!--频道列表-->

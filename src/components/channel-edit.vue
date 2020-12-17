@@ -90,9 +90,15 @@ export default {
    },
    removeItem (index) {
     if(this.isEdit && index!==0) {
-      this.$emit('update-active',this.active -1)
+      if(index <= this.active){
+        this.$emit('update-active',this.active -1)
+      }
       this.userChannelList.splice(index,1)
-      setItem('user-channel',this.userChannelList)
+      if(this.user){
+        // 调删除接口
+      }else{
+        setItem('user-channel',this.userChannelList)
+      }
     }else{
       this.$emit('close')
       this.$emit('update-active',index)
