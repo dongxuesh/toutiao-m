@@ -57,9 +57,7 @@ import ArticleItem from '@/components/article-item.vue'
      }
      const { data:res } = await getArticles(param)
      if(res && res.data) {
-       console.log('resInfo',res)
         this.articles.push(...res.data.results) // 重点 合并数组
-        console.log('res',this.articles)
      }
      this.loading = false // 加载结束
      if(res.data.results.length){

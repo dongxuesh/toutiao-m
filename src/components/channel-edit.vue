@@ -15,15 +15,18 @@
        <div slot='title' class='channel-title'>频道推荐</div>
      </van-cell>
      <van-grid :gutter="10">
-       <van-grid-item
-       text="文字"
+       <van-grid-item v-for='(item,index) in recommendList'
+       :key='index'
+       :text="item.name"
        class='grid-item'
+       @click='addChannnel(item)'
        />
      </van-grid>
   </div>
 </template>
 
 <script>
+import {getAllchannels} from '@/api/channel'
 export default {
   name: 'channelEdit',
   components: {},
@@ -35,16 +38,32 @@ export default {
   },
   data () {
     return {
-
+      allChannelList: []
     }
   },
- computed: {},
+ computed: {
+   recommendList() {
+     return this.allChannelList.filter(channel => {
+       return !this.userChannelList.find(userChannel => {
+         return userChannel.id === channel.id
+       })
+     })
+   }
+ },
  watch: {},
  created () {
-   console.log('111',this.userChannelList)
+   this.getAllData()
  },
  mounted () {},
- methods: {}
+ methods: {
+   async getAllData() {
+     const {data:res} = await getAllchannels()
+     this.allChannelList = res.data.channels
+   },
+   addChannnel (item) {
+     this.userChannelList.push(item)
+   }
+ }
 }
 </script>
 
