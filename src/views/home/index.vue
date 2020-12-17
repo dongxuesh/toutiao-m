@@ -32,7 +32,7 @@
        class='channel-edit-popup'
        style='height:100%'
     >
-      <channel-edit :userChannelList='channelList'/>
+      <channel-edit :userChannelList='channelList' @close='popupshow=false' @update-active='active = $event'/>
     </van-popup>
   </div>
 </template>
