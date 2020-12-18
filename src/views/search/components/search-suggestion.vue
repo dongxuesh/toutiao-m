@@ -1,11 +1,12 @@
 <template>
   <div class="search-suggestion">
     <van-cell
-    v-for='(suggestion,index) in suggestions'
+    v-for='(str,index) in suggestions'
     :key='index'
     icon='search'
+    @click="$emit('search',str)"
     >
-      <div slot='title' v-html='heightlignt(suggestion)'></div>
+      <div slot='title' v-html='heightlignt(str)'></div>
     </van-cell>
   </div>
 </template>

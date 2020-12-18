@@ -7,14 +7,17 @@
         show-action
         placeholder="请输入搜索关键词"
         @focus='isResultShow=false'
-        @search="onSearch"
+        @search="onSearch(searchText)"
         @cancel="$router.back()"
       />
     </form>
     <!--搜索结果-->
-    <search-result v-if='isResultShow'/>
+    <search-result v-if='isResultShow' :search-text='searchText'/>
     <!--联想建议-->
-    <search-suggestion v-else-if='searchText' :search-text='searchText'/>
+    <search-suggestion
+    v-else-if='searchText'
+    :search-text='searchText'
+    @search="onSearch"/>
     <!--历史记录-->
     <search-history v-else/>
 
@@ -46,8 +49,8 @@ export default {
  created () {},
  mounted () {},
  methods: {
-   onSearch () {
-     console.log('onSearch')
+   onSearch (searchText) {
+     this.searchText = searchText
      this.isResultShow = true
    }
  }
